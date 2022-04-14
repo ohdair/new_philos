@@ -6,11 +6,18 @@
 /*   By: jaewpark <jaewpark@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/14 19:37:04 by jaewpark          #+#    #+#             */
-/*   Updated: 2022/04/14 20:12:37 by jaewpark         ###   ########.fr       */
+/*   Updated: 2022/04/14 22:01:37 by jaewpark         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+void	end_flag(t_data *p)
+{
+	pthread_mutex_lock(&p->end_line);
+	p->finish = 1;
+	pthread_mutex_unlock(&p->end_line);
+}
 
 int	free_malloc(t_data *p)
 {

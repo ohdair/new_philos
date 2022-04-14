@@ -6,7 +6,7 @@
 /*   By: jaewpark <jaewpark@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/14 16:40:45 by jaewpark          #+#    #+#             */
-/*   Updated: 2022/04/14 20:13:35 by jaewpark         ###   ########.fr       */
+/*   Updated: 2022/04/14 22:13:05 by jaewpark         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,12 @@
 # include <unistd.h>
 # include <sys/time.h>
 
+# define  0
 # define WRONG_ARGC 1
 # define WRONG_ARGUMENT 2
 # define FAIL_MALLOC 3
 # define FAIL_MUTEX 4
+# define FAIL_PTHREAD 5
 
 # define PICKUP_LFORK 1
 # define PICKUP_RFORK 2
@@ -31,12 +33,13 @@
 # define PHILO_THINKING 5
 # define PHILO_DIED 666
 
+typedef unsigned long long t_time_ms;
 typedef struct s_philo
 {
 	int				n;
 	int				n1;
 	int				num_of_eat;
-	unsigned int	death_time;
+	t_time_ms		death_time;
 	pthread_t		thread;
 	pthread_mutex_t	handle;
 	struct s_data	*data;
@@ -47,15 +50,15 @@ typedef struct s_data
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	end_line;
 	t_philo			*philos;
-	unsigned int	time_of_start;
+	t_time_ms		time_of_start;
 	int				finish;
 	int				eat_finish;
-	unsigned int	create_date;
 	int				num_of_philos;
+	unsigned int	create_date;
 	unsigned int	time_to_die;
-	int				time_to_eat;
-	int				time_to_sleep;
-	int				num_of_must_eat;
+	unsigned int	time_to_eat;
+	unsigned int	time_to_sleep;
+	unsigned int	num_of_must_eat;
 }	t_data;
 
 /* print */

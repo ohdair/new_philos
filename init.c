@@ -6,7 +6,7 @@
 /*   By: jaewpark <jaewpark@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/14 19:38:49 by jaewpark          #+#    #+#             */
-/*   Updated: 2022/04/14 20:14:15 by jaewpark         ###   ########.fr       */
+/*   Updated: 2022/04/14 22:11:35 by jaewpark         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,22 @@ static int	mutex_init(t_data *p)
 	return (1);
 }
 
+int	pthread_init(t_data *p)
+{
+	t_time_ms	now;
+	pthread_t	manager;
+	int			i;
+
+	i = -1;
+	while (++i < p->num_of_philos)
+	{
+		now = get_time();
+		p->philos[i].death_time = now + p->time_to_die;
+		if (pthread_create(&p->philos[i].thread, NULL, &monitor, &p->philos[i]))
+			return (0);
+	}
+}
+
 int	philo_info_init(t_data *p)
 {
 	int	i;
@@ -60,7 +76,6 @@ int	philo_info_init(t_data *p)
 		p->philos[i].n1 = (i + 1) % p->num_of_philos;
 		p->philos[i].num_of_eat = 0;
 		p->philos[i].data = p;
-		p->philos[i].death_time = get_time() + p->time_to_die;
 	}
 	if (!mutex_init(p))
 		return (0);
