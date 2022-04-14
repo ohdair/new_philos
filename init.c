@@ -12,6 +12,17 @@
 
 #include "philo.h"
 
+static int	failed_pthread(t_data *p, int i, pthread_t *manager)
+{
+	end_flag(p);
+	if (manager != NULL)
+		pthread_join(*manager, NULL);
+	while (i--)
+		pthread_join(p->philos[i].thread, NULL);
+	ft_error(FAIL_PTHREAD);
+	return (0);
+}
+
 static void	failed_mutex(t_data *p, int i)
 {
 	while (i--)
@@ -47,7 +58,7 @@ static int	mutex_init(t_data *p)
 	return (1);
 }
 
-int	pthread_init(t_data *p)
+static int	pthread_init(t_data *p)
 {
 	t_time_ms	now;
 	pthread_t	manager;
@@ -58,9 +69,15 @@ int	pthread_init(t_data *p)
 	{
 		now = get_time();
 		p->philos[i].death_time = now + p->time_to_die;
-		if (pthread_create(&p->philos[i].thread, NULL, &monitor, &p->philos[i]))
-			return (0);
+		if (pthread_create(&p->philos[i].thread, NULL, rutine, &p->philos[i]))
+			return (failed_pthread(p, i, NULL));
 	}
+	if (pthread_create(&manager, NULL, monitor, p))
+		return (failed_pthread(p, i, NULL));
+	pthread_join(manager, NULL);
+	while (i--)
+		pthread_join(p->philos[i].thread, NULL);
+	return (1);
 }
 
 int	philo_info_init(t_data *p)
@@ -78,6 +95,8 @@ int	philo_info_init(t_data *p)
 		p->philos[i].data = p;
 	}
 	if (!mutex_init(p))
+		return (0);
+	if (!pthread_init(p))
 		return (0);
 	return (1);
 }

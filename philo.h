@@ -19,7 +19,7 @@
 # include <unistd.h>
 # include <sys/time.h>
 
-# define  0
+# define SUCCESS 0
 # define WRONG_ARGC 1
 # define WRONG_ARGUMENT 2
 # define FAIL_MALLOC 3
@@ -62,6 +62,7 @@ typedef struct s_data
 }	t_data;
 
 /* print */
+void			print_state(t_philo *p, int philo, int way);
 int				ft_error(int ERRORCODE);
 
 /* parsing */
@@ -70,15 +71,15 @@ int				parsing_argv(int argc, char **argv, t_data *p);
 /* utils */
 unsigned int	get_time(void);
 void			*ft_calloc(size_t count, size_t size);
+void			end_flag(t_data *p);
 int				free_malloc(t_data *p);
 
 /* init */
 int				philo_info_init(t_data *p);
 
 
-/* 				옛날 코드 					*/
+/* 					옛날 코드 					*/
 
-void			philo_state(t_philo *p, int philo, int way);
 
 void			*check_death(void *arg);
 void			*check_eat(void *arg);
