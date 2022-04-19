@@ -6,7 +6,7 @@
 /*   By: jaewpark <jaewpark@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/14 16:40:45 by jaewpark          #+#    #+#             */
-/*   Updated: 2022/04/19 12:03:57 by jaewpark         ###   ########.fr       */
+/*   Updated: 2022/04/19 14:30:05 by jaewpark         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ typedef unsigned long long	t_time_ms;
 typedef struct s_sema
 {
 	sem_t	*forks;
+	sem_t	*forks_lock;
 	sem_t	*end_line;
 	sem_t	*handle;
 }	t_sema;

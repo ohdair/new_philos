@@ -6,7 +6,7 @@
 /*   By: jaewpark <jaewpark@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/15 08:45:08 by jaewpark          #+#    #+#             */
-/*   Updated: 2022/04/19 12:03:31 by jaewpark         ###   ########.fr       */
+/*   Updated: 2022/04/19 17:02:17 by jaewpark         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	*rutine(void *philo)
 
 	p = (t_philo *)philo;
 	if (p->n % 2 == 0)
-		psleep(2);
+		psleep(1);
 	while (42)
 	{
 		if (philo_pickup_forks(p))

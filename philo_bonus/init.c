@@ -6,7 +6,7 @@
 /*   By: jaewpark <jaewpark@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/14 19:38:49 by jaewpark          #+#    #+#             */
-/*   Updated: 2022/04/19 12:03:35 by jaewpark         ###   ########.fr       */
+/*   Updated: 2022/04/19 15:58:01 by jaewpark         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,13 +34,36 @@ int	destroy_semapho(t_data *p)
 	return (0);
 }
 
+// Assuming all the processes are owned by the same user, a mode of 0600 (S_IRUSR | S_IWUSR)
 static int	semapho_init(t_data *p)
 {
-	p->semapho->forks = sem_open("/forks", O_CREAT | O_EXCL, S_IRUSR | S_IWUSR, p->num_of_philos);
-	p->semapho->handle = sem_open("/handle", O_CREAT | O_EXCL, S_IRUSR | S_IWUSR, 1);
-	p->semapho->end_line = sem_open("/end_line", O_CREAT | O_EXCL, S_IRUSR | S_IWUSR, 1);
-	if (!p->semapho->forks || !p->semapho->handle || !p->semapho->end_line)
+	sem_t	*ret;
+
+	sem_unlink("forks");
+	sem_unlink("forks_lock");
+	sem_unlink("handle");
+	sem_unlink("end_line");
+	ret = sem_open("forks", O_CREAT, S_IRUSR | S_IWUSR, p->num_of_philos);
+	if (ret == SEM_FAILED)
 		return (ft_error(FAIL_SEMA));
+	ret = p->semapho->forks;
+	ret = sem_open("forks_lock", O_CREAT, S_IRUSR | S_IWUSR, p->num_of_philos);
+	if (ret == SEM_FAILED)
+		return (ft_error(FAIL_SEMA));
+	ret = p->semapho->forks_lock;
+	ret = sem_open("handle", O_CREAT, S_IRUSR | S_IWUSR, 0);
+	if (ret == SEM_FAILED)
+		return (ft_error(FAIL_SEMA));
+	ret = p->semapho->handle;
+	ret = sem_open("end_line", O_CREAT, S_IRUSR | S_IWUSR, 1);
+	if (ret == SEM_FAILED)
+		return (ft_error(FAIL_SEMA));
+	ret = p->semapho->end_line;
+	// p->semapho->forks = sem_open("/forks", O_CREAT | O_EXCL, S_IRUSR | S_IWUSR, p->num_of_philos);
+	// p->semapho->handle = sem_open("/handle", O_CREAT | O_EXCL, S_IRUSR | S_IWUSR, 1);
+	// p->semapho->end_line = sem_open("/end_line", O_CREAT | O_EXCL, S_IRUSR | S_IWUSR, 1);
+	// if (!p->semapho->forks || !p->semapho->handle || !p->semapho->end_line)
+	// 	return (ft_error(FAIL_SEMA));
 	return (1);
 }
 

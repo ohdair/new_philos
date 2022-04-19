@@ -6,7 +6,7 @@
 /*   By: jaewpark <jaewpark@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/15 09:17:22 by jaewpark          #+#    #+#             */
-/*   Updated: 2022/04/15 16:15:12 by jaewpark         ###   ########.fr       */
+/*   Updated: 2022/04/19 17:52:41 by jaewpark         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,16 @@
 
 static void	someone_dead(t_philo *philo)
 {
+	int	i;
+
 	pthread_mutex_lock(&philo->data->end_line);
+	i = -1;
 	printf("\e[1;31m%lldms\t\e[0m\e[7;31m|\e[0m\e[1;31m  %d died 💀 !\e[0m\n", \
 	get_time() - philo->data->create_date, philo->n + 1);
 	philo->data->finish = 1;
 	drop_forks(philo);
+	while (++i < philo->data->num_of_philos)
+		pthread_mutex_unlock(&philo->data->forks[i]);
 	pthread_mutex_unlock(&philo->data->end_line);
 }
 
