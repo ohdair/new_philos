@@ -6,7 +6,7 @@
 /*   By: jaewpark <jaewpark@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/14 16:40:45 by jaewpark          #+#    #+#             */
-/*   Updated: 2022/04/19 14:30:05 by jaewpark         ###   ########.fr       */
+/*   Updated: 2022/04/20 11:40:56 by jaewpark         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <string.h>
 # include <pthread.h>
 # include <unistd.h>
+#include <signal.h>
 # include <sys/time.h>
 # include <semaphore.h>
 
@@ -47,10 +48,9 @@ typedef struct s_sema
 typedef struct s_philo
 {
 	int				n;
-	int				n1;
+	int				pid;
 	int				num_of_eat;
 	t_time_ms		death_time;
-	pthread_t		thread;
 	struct s_data	*data;
 }					t_philo;
 
@@ -77,6 +77,7 @@ int				ft_error(int ERRORCODE);
 int				parsing_argv(int argc, char **argv, t_data *p);
 
 /* utils */
+int				kill_philo(t_data *d, int num);
 int				free_malloc(t_data *p);
 void			*ft_calloc(size_t count, size_t size);
 int				end_check(t_philo *p);
@@ -92,9 +93,16 @@ int				philo_info_init(t_data *p);
 int				destroy_semapho(t_data *p);
 
 /* rutine */
-void			*rutine(void *philo);
+void			*routine(void *philo);
 
 /* monitor.c */
 void			*monitor(void *data);
+void			*is_full(void *data);
+
+/* semaphore */
+int				destroy_semaphore(t_data *data);
+int				init_semaphore(t_data *data);
+
+void			free_all(t_data *p);
 
 #endif

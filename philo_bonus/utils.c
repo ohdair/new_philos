@@ -6,16 +6,26 @@
 /*   By: jaewpark <jaewpark@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/14 19:37:04 by jaewpark          #+#    #+#             */
-/*   Updated: 2022/04/19 11:26:00 by jaewpark         ###   ########.fr       */
+/*   Updated: 2022/04/20 11:06:24 by jaewpark         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
 
+int	kill_philo(t_data *d, int num)
+{
+	int	i;
+
+	i = -1;
+	while (++i < num)
+		kill(d->philos[num].pid, SIGKILL);
+	return (0);
+}
+
 int	free_malloc(t_data *p)
 {
 	free(p->philos);
-	// free(p->semapho);
+	free(p->semapho);
 	free(p);
 	return (1);
 }

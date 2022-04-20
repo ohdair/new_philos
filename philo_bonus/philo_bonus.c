@@ -6,7 +6,7 @@
 /*   By: jaewpark <jaewpark@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/14 16:42:40 by jaewpark          #+#    #+#             */
-/*   Updated: 2022/04/19 11:23:38 by jaewpark         ###   ########.fr       */
+/*   Updated: 2022/04/20 10:45:43 by jaewpark         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 void	free_all(t_data *p)
 {
+	kill_philo(p, p->num_of_philos);
 	destroy_semapho(p);
 	free_malloc(p);
 }

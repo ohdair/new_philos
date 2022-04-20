@@ -6,7 +6,7 @@
 /*   By: jaewpark <jaewpark@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/15 09:17:22 by jaewpark          #+#    #+#             */
-/*   Updated: 2022/04/19 11:14:44 by jaewpark         ###   ########.fr       */
+/*   Updated: 2022/04/20 11:50:20 by jaewpark         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,50 +18,38 @@ static void	someone_dead(t_philo *philo)
 	printf("\e[1;31m%lldms\t\e[0m\e[7;31m|\e[0m\e[1;31m  %d died 💀 !\e[0m\n", \
 	get_time() - philo->data->create_date, philo->n + 1);
 	philo->data->finish = 1;
-	sem_post(philo->data->semapho->forks);
-	sem_post(philo->data->semapho->forks);
-	sem_post(philo->data->semapho->end_line);
+	free_all(philo->data);
+	exit(1);
 }
 
-static int	observer_of_death(t_data *data)
-{
-	int	everyone_full;
-	int	somone_dead;
-	int	i;
-
-	everyone_full = 0;
-	i = -1;
-	while (++i < data->num_of_philos)
-	{
-		sem_wait(data->semapho->handle);
-		everyone_full = (data->eat_finish >= data->num_of_philos);
-		somone_dead = (get_time() >= data->philos[i].death_time);
-		sem_post(data->semapho->handle);
-		if (somone_dead)
-			break ;
-	}
-	if (somone_dead)
-		someone_dead(&data->philos[i]);
-	else if (everyone_full)
-	{
-		sem_wait(data->semapho->handle);
-		data->finish = 1;
-		sem_post(data->semapho->handle);
-	}
-	return (everyone_full || somone_dead);
-}
-
-void	*monitor(void *data)
+void	*is_full(void *data)
 {
 	t_data	*d;
 
 	d = (t_data *)data;
 	while (42)
 	{
-		if (observer_of_death(d))
+		if (d->eat_finish >= d->num_of_philos)
 		{
-			return (NULL);
+			sem_wait(d->semapho->end_line);
+			free_all(d);
+			exit(1);
 		}
+		usleep(1000);
+	}
+}
+
+void	*monitor(void *philo)
+{
+	t_philo	*p;
+
+	p = (t_philo *)philo;
+	while (42)
+	{
+		sem_wait(p->data->semapho->handle);
+		if (get_time() >= p->death_time)
+			someone_dead(p);
+		sem_post(p->data->semapho->handle);
 		usleep(100);
 	}
 }
