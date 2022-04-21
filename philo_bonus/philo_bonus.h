@@ -6,7 +6,7 @@
 /*   By: jaewpark <jaewpark@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/14 16:40:45 by jaewpark          #+#    #+#             */
-/*   Updated: 2022/04/20 11:40:56 by jaewpark         ###   ########.fr       */
+/*   Updated: 2022/04/20 14:19:04 by jaewpark         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,10 +90,9 @@ void			drop_forks(t_philo *p);
 
 /* init */
 int				philo_info_init(t_data *p);
-int				destroy_semapho(t_data *p);
 
 /* rutine */
-void			*routine(void *philo);
+void			*routine(t_philo *philo);
 
 /* monitor.c */
 void			*monitor(void *data);

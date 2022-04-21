@@ -6,7 +6,7 @@
 /*   By: jaewpark <jaewpark@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/14 16:42:40 by jaewpark          #+#    #+#             */
-/*   Updated: 2022/04/19 17:54:07 by jaewpark         ###   ########.fr       */
+/*   Updated: 2022/04/21 12:18:41 by jaewpark         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,12 @@ void	free_all(t_data *p)
 	free_malloc(p);
 }
 
+#include <string.h>
 int	main(int argc, char **argv)
 {
 	t_data			*p;
 
+	memset(&p, 0, sizeof(p));
 	p = (t_data *)malloc(sizeof(t_data));
 	if (!p)
 		return (ft_error(FAIL_MALLOC));

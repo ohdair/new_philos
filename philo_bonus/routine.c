@@ -6,7 +6,7 @@
 /*   By: jaewpark <jaewpark@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/15 08:45:08 by jaewpark          #+#    #+#             */
-/*   Updated: 2022/04/20 11:14:46 by jaewpark         ###   ########.fr       */
+/*   Updated: 2022/04/20 14:18:29 by jaewpark         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,21 +50,19 @@ static void	philo_sleep(t_philo *p)
 	psleep(p->data->time_to_sleep);
 }
 
-void	*routine(void *philo)
+void	*routine(t_philo *philo)
 {
-	t_philo		*p;
 	pthread_t	manager;
 
-	p = (t_philo *)philo;
-	pthread_create(&manager, NULL, monitor, p);
+	pthread_create(&manager, NULL, monitor, philo);
 	pthread_detach(manager);
-	if (p->n % 2 == 0)
+	if (philo->n % 2 == 0)
 		psleep(1);
 	while (42)
 	{
-		philo_pickup_forks(p);
-		philo_eating(p);
-		philo_sleep(p);
-		philo_thinking(p);
+		philo_pickup_forks(philo);
+		philo_eating(philo);
+		philo_sleep(philo);
+		philo_thinking(philo);
 	}
 }

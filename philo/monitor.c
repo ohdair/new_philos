@@ -6,7 +6,7 @@
 /*   By: jaewpark <jaewpark@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/15 09:17:22 by jaewpark          #+#    #+#             */
-/*   Updated: 2022/04/19 17:52:41 by jaewpark         ###   ########.fr       */
+/*   Updated: 2022/04/21 12:24:34 by jaewpark         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,6 @@ static void	someone_dead(t_philo *philo)
 	get_time() - philo->data->create_date, philo->n + 1);
 	philo->data->finish = 1;
 	drop_forks(philo);
-	while (++i < philo->data->num_of_philos)
-		pthread_mutex_unlock(&philo->data->forks[i]);
 	pthread_mutex_unlock(&philo->data->end_line);
 }
 
@@ -33,12 +31,12 @@ static int	observer_of_death(t_data *data)
 	int	somone_dead;
 	int	i;
 
-	everyone_full = 0;
+	everyone_full = (data->num_of_must_eat != -1);
 	i = -1;
 	while (++i < data->num_of_philos)
 	{
 		pthread_mutex_lock(&(data->philos[i].handle));
-		everyone_full = (data->eat_finish >= data->num_of_philos);
+		everyone_full &= (data->num_of_must_eat <= data->philos[i].num_of_eat);
 		somone_dead = (get_time() >= data->philos[i].death_time);
 		pthread_mutex_unlock(&(data->philos[i].handle));
 		if (somone_dead)
@@ -66,6 +64,6 @@ void	*monitor(void *data)
 		{
 			return (NULL);
 		}
-		usleep(100);
+		usleep(1000);
 	}
 }

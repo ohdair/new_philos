@@ -6,7 +6,7 @@
 #    By: jaewpark <jaewpark@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/04/15 16:08:53 by jaewpark          #+#    #+#              #
-#    Updated: 2022/04/19 11:51:03 by jaewpark         ###   ########.fr        #
+#    Updated: 2022/04/20 13:45:16 by jaewpark         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,6 +27,7 @@ SRC_FILES = init.c \
 			philo_bonus.c \
 			print.c \
 			routine.c \
+			semaphore.c \
 			tools.c \
 			utils.c \
 

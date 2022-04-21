@@ -6,7 +6,7 @@
 /*   By: jaewpark <jaewpark@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/14 16:48:27 by jaewpark          #+#    #+#             */
-/*   Updated: 2022/04/15 15:47:22 by jaewpark         ###   ########.fr       */
+/*   Updated: 2022/04/21 13:58:31 by jaewpark         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,15 +39,15 @@ int	parsing_argv(int argc, char **argv, t_data *p)
 	p->time_to_die = ft_atoi(argv[2]);
 	p->time_to_eat = ft_atoi(argv[3]);
 	p->time_to_sleep = ft_atoi(argv[4]);
-	p->num_of_must_eat = 0;
+	p->num_of_must_eat = -1;
 	if (argc == 6)
 	{
-		if (!ft_atoi(argv[5]))
-			return (ft_error(WRONG_ARGUMENT));
+		// if (!ft_atoi(argv[5]))
+		// 	return (ft_error(WRONG_ARGUMENT));
 		p->num_of_must_eat = ft_atoi(argv[5]);
 	}
 	if (p->num_of_philos <= 0 || p->time_to_die <= 0 || p->time_to_eat <= 0 \
-	|| p->time_to_sleep <= 0 || p->num_of_must_eat < 0)
+	|| p->time_to_sleep <= 0 || (argc == 6 && p->num_of_must_eat <= 0))
 		return (ft_error(WRONG_ARGUMENT));
 	p->philos = ft_calloc(sizeof(t_philo), p->num_of_philos);
 	if (!p->philos)
